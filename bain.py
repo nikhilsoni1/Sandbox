@@ -52,19 +52,17 @@ def mkdir(directory):
         os.makedirs(directory)
 
 
-SUFFIX = "adh"
-consultant = "3429"
-aconsultant = "3472"
-adh = "3416"
 roles = [{"role": "adh", "app_id": "3416", "url": "https://www.bain.com/careers/roles/advanced-degree/"},
          {"role": "consultant", "app_id": "3429", "url": "https://www.bain.com/careers/roles/consultant/"},
          {"role": "aconsultant", "app_id": "3472", "url": "https://www.bain.com/careers/roles/ac/"}]
 target = roles[2]
+
 querybase = "https://www.bain.com/en/api/application/%s/get?queryValue=" % target["app_id"]
 resp = response(target["url"])
 soup = BeautifulSoup(resp.data, "html.parser")
 cities = soup.find_all("a", {"class": "feed-filter-block__filter-link"})
 store = {}
+
 for i in cities:
     id = i["data-query-value"]
     query_url = querybase + id
