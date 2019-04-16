@@ -119,3 +119,4 @@ dmypy.json
 assets/
 output/
 .DS_Store
+_*
