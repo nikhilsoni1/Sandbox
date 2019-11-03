@@ -21,24 +21,35 @@ def tokenize(df, cols):
     return df, attrs
 
 
+def duplicate_node_copy(G):
+    in_degree = list(G.in_degree)
+    in_degree_gte_2 = list(filter(lambda x: x[1] >= 2, in_degree))
+    for i in in_degree_gte_2:
+        target_node, deg = i
+        predecessors = list(G.predecessors(target_node))
+        for j in predecessors[1:]:
+            new_node = len(G.nodes)
+            old_node_data = G.nodes[target_node]
+            G.remove_edge(j, target_node)
+            G.add_edge(j, new_node)
+            G.nodes[new_node].update(old_node_data)
+    return G
+
+
 df = pd.read_excel("assets/sample_bom.xlsx")
 df_tokenized, attrs = tokenize(df, ['parent', 'child'])
+print(attrs)
 G = nx.convert_matrix.from_pandas_edgelist(df_tokenized, 'parent_prime', 'child_prime', create_using=nx.DiGraph)
 for i, j in attrs.items():
     G.nodes[i].setdefault('name', j)
-in_degree = list(G.in_degree)
-in_degree_gte_2 = list(filter(lambda x: x[1] >= 2, in_degree))
-for i in in_degree_gte_2:
-    target_node, deg = i
-    predecessors = list(G.predecessors(target_node))
-    for j in predecessors[1:]:
-        new_node = len(G.nodes)
-        old_node_data = G.nodes[target_node]
-        G.remove_edge(j, target_node)
-        G.add_edge(j, new_node)
-        G.nodes[new_node].update(old_node_data)
+H = nx.bfs_tree(G, 3)
+H1 = G.subgraph(H)
+nx.draw_networkx(H)
+plt.show()
+
+G_prime = duplicate_node_copy(G)
 
 
-data = nx.readwrite.json_graph.tree_data(G, 2, {'id': 'token', 'children': 'children'})
+data = nx.readwrite.json_graph.tree_data(G_prime, 4, {'id': 'token', 'children': 'children'})
 with open('output/sample_bom.json', 'w') as file:
     json.dump(data, file)
