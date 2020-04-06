@@ -1,0 +1,38 @@
+axes.axisbelow : True
+axes.edgecolor : 000000
+axes.facecolor : ffffff
+axes.grid : True
+axes.grid.axis : both    ## which axis the grid should apply to
+axes.grid.which : both
+axes.labelpad : 16
+axes.prop_cycle : cycler('color', ['86bc25'])
+axes.spines.bottom : True
+axes.spines.left   : True
+axes.spines.right  : False
+axes.spines.top    : False
+axes.titlepad : 16
+axes.titlesize : 16
+axes.titleweight : bold
+
+figure.figsize : 8, 6
+figure.frameon : False
+figure.constrained_layout.use: True
+figure.constrained_layout.h_pad : 0.25
+figure.constrained_layout.w_pad : 0.5
+
+font.family : sans-serif
+font.cursive : Helvetica
+font.size : 12
+
+grid.alpha : 0.25
+grid.color : 000000
+grid.linestyle : dotted
+
+patch.edgecolor        : black   ## if forced, or patch is not filled
+patch.force_edgecolor  : True
+patch.linewidth        : 0.75
+
+savefig.dpi : 400
+
+xtick.bottom : False
+ytick.left : False
